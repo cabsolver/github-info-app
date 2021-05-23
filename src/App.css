@@ -1,16 +1,52 @@
 .App {
-  
+  background: #E5E5E5;
 }
 
+/* Header starts */ 
 .App-header {
+  display: grid;
+  grid-template-columns: 82px 1fr;
   background-color: #0064EB;
   height: 72px;
+  border-bottom: 1px solid #D4D8DD;
 }
 
 .App-logo {
-  padding-left: 41px;
-  padding-top: 16px;
-  padding-bottom: 16px;
   height: 40px;
   width: 41px;
+  margin-left: 41px;
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
+
+.search-form {
+  height: 40px;
+  width: 500px;
+  margin-left: 22px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  background: white;
+}
+
+.search-input {
+  height: 24px;
+  width: 256px;
+  margin-left: 14px;
+  margin-top: 8px;
+  padding-left: 30px;
+  background: url("/src/img/loupe-ico.svg") no-repeat left center;
+  background-size: 14px;
+  border: 0;
+  font-weight: normal;
+  font-size: 14px;
+  color: black;
+  outline: none;
+}
+/* Header ends */
+
+/* Main starts */
+.App-main {
+  min-height: 100vh;
+}
+/* Main ends */

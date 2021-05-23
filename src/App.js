@@ -7,10 +7,14 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <img src="/img/header-ico.png" className="App-logo" alt="logo"/>
-          
+          <div className="App-logo">
+            <img src="/img/header-ico.svg" alt="logo"/>
+          </div>
+          <form className="search-form">
+            <input type="text" name="username" className="search-input" placeholder="Enter GitHub username"/>
+          </form>
         </div>
-        <div className="header-divider"></div>
+
         <div className="App-main">
 
         </div>

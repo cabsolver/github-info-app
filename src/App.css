@@ -4,6 +4,7 @@
 
 /* Header starts */ 
 .App-header {
+  
   display: grid;
   grid-template-columns: 82px 1fr;
   background-color: #0064EB;

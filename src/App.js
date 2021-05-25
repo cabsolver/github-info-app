@@ -20,13 +20,23 @@ class UserDisplay extends Component {
   }
 
   render() {
-    const username = this.props.username;
-    if(username === '')
-    {
+    const repos = this.props.repos;
+    if(this.props.username === '') {
       return this.showInitialState();
+    } else if(!this.props.isExisting) {
+      return <p>User does not extist!</p>
     } else {
       return(
-        <h1>User {username}</h1>
+        <div>
+          User's
+          <ul>
+            <li>Login {this.props.login}</li>
+            <li>Name {this.props.name}</li>
+            {repos.map(item => {
+              return <li>{item.name}</li>
+            })}
+          </ul>
+        </div>
       );
     }
   }
@@ -35,14 +45,8 @@ class UserDisplay extends Component {
 class UsernameForm extends Component {
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    //this.state = {username: this.props.username}
     this.input = React.createRef();
-  }
-
-  handleChange(event) {
-    //this.setState({username: event.target.value})
   }
   
   handleSubmit(event) {
@@ -60,8 +64,6 @@ class UsernameForm extends Component {
           className="search-input" 
           name="username"
           ref={this.input}
-          // value={this.state.username}
-          // onChange={this.handleChange} 
           placeholder="Enter GitHub username"/>
       </form>
     );
@@ -72,11 +74,60 @@ class App extends Component {
   constructor(props){
     super(props);
     this.handleUsernameSubmit = this.handleUsernameSubmit.bind(this);
-    this.state = {username: ''};
+    this.getRepositiories = this.getRepositiories.bind(this);
+    this.getUser = this.getUser.bind(this);
+    this.state = {
+      isExisting: false,
+      username: '',
+      repos: []
+    };
   }
 
-  handleUsernameSubmit(username) {
-    this.setState({username});
+  async getUser(username) {
+    return fetch(`https://api.github.com/users/${username}`)
+    .then(response => {
+      if(!response.ok) {
+        return null;
+      } else {
+        return response.json();
+      }
+    })
+    .then(response => {
+      return response;
+    });
+  }
+
+  async getRepositiories(username) {
+    return fetch(`https://api.github.com/users/${username}/repos`)
+    .then(response => {
+      if(!response.ok) {
+        return null;
+      } else {
+        return response.json();
+      }
+    })
+    .then(response => {
+      return response;
+    });
+  }
+
+  async handleUsernameSubmit(username) {
+    let user = await this.getUser(username);
+    let repos = await this.getRepositiories(username);
+    if(user !== null) {
+      this.setState({
+        isExisting: true,
+        username: username,
+        login: user.login,
+        name: user.name,
+        repos: repos
+      });
+    } else {
+      this.setState({
+        isExisting: false,
+        username: username,
+      });
+    }
   }
 
   render() {
@@ -94,7 +145,13 @@ class App extends Component {
         </div>
 
         <div className="App-main">
-          <UserDisplay username={this.state.username}/>
+          <UserDisplay 
+            isExisting={this.state.isExisting}
+            username={this.state.username}
+            login={this.state.login}
+            name={this.state.name}
+            repos={this.state.repos}
+          />
         </div>
 
       </div>

@@ -46,7 +46,35 @@
 /* Header ends */
 
 /* Main starts */
-.App-main {
+.App-main {  
   min-height: 100vh;
+}
+
+.initial-state-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-items: center;
+  min-height: 100vh;
+}
+
+.initial-state-hint {
+  width: 210px;
+  height: 196px;
+}
+
+.initial-state-ico {
+  margin-left: 73px;
+  margin-top: 23px;
+  margin-bottom: 47px;
+  width: 64px;
+  height: 64px;
+
+}
+
+.initial-state-text {
+  margin: 0 auto;
+  font-size: 22px;
+  text-align: center;
 }
 /* Main ends */

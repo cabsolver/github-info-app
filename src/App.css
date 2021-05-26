@@ -51,7 +51,7 @@
   min-height: 100vh;
 }
 
-.initial-state-wrapper {
+.state-wrapper {
   display: grid;
   grid-template-columns: 1fr;
   align-items: center;
@@ -59,12 +59,12 @@
   min-height: 100vh;
 }
 
-.initial-state-hint {
+.state-hint {
   width: 210px;
   height: 196px;
 }
 
-.initial-state-ico {
+.state-ico {
   margin-left: 73px;
   margin-top: 23px;
   margin-bottom: 47px;
@@ -73,9 +73,14 @@
 
 }
 
-.initial-state-text {
+.state-text {
   margin: 0 auto;
   font-size: 22px;
   text-align: center;
+}
+
+.User {
+  display: grid;
+  grid-template-columns: 433px 1fr;
 }
 /* Main ends */

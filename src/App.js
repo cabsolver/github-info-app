@@ -1,48 +1,220 @@
 import { Component } from 'react';
 import React from 'react';
 import './App.css';
+import ReactPaginate from 'react-paginate';
 
-class UserDisplay extends Component {
-  constructor(props) {
+class App extends Component {
+  constructor(props){
     super(props);
-    this.showInitialState = this.showInitialState.bind(this);
+    this.handleUsernameSubmit = this.handleUsernameSubmit.bind(this);
+    this.handlePageClick = this.handlePageClick.bind(this);
+    this.getRepositiories = this.getRepositiories.bind(this);
+    this.getUser = this.getUser.bind(this);
+    this.displayState = this.displayState.bind(this);
+    this.displayUserInfo = this.displayUserInfo.bind(this);
+    this.state = {
+      isUserExisting: false,
+      desiredUser: '',
+      repos: [],
+      reposPerPage: 4,
+      currentPage: 1,
+    };
   }
 
-  showInitialState() {
+  displayState(state) {
+    let imageUrl;
+    let message;
+    switch (state){
+      case "initial": {
+        imageUrl = "/img/loupe-ico.svg"; 
+        message = "Start with searching a GitHub user"
+        break;
+      } 
+
+      case "not-found": {
+        imageUrl = "/img/user-not-found-ico.svg";
+        message = "User not found" 
+        break;
+      } 
+
+      case "empty": {
+        imageUrl = "/img/empty-list.svg";
+        message = "Repository list is empty" 
+        break;
+      } 
+
+      default: imageUrl = "/img/loupe-ico.svg";
+    }
+
     return(
-        <div className="initial-state-wrapper">
-          <div className="initial-state-hint">
-            <img className="initial-state-ico" src="/img/loupe-ico.svg" alt="loupe" />
-            <p className="initial-state-text">Start with searching a GitHub user</p>
+        <div className={"state-wrapper " + state}>
+          <div className={"state-hint " + state}>
+            <img className={"state-ico " + state} src={imageUrl} alt="loupe" />
+            <p className={"state-text " + state}>{message}</p>
           </div>
         </div>
     );
   }
 
-  render() {
-    const repos = this.props.repos;
-    if(this.props.username === '') {
-      return this.showInitialState();
-    } else if(!this.props.isExisting) {
-      return <p>User does not extist!</p>
+  displayUserInfo() {
+    if(this.state.desiredUser === '') {
+      return this.displayState("initial");
+    } else if(!this.state.isUserExisting) {
+      return this.displayState("not-found");
     } else {
+      return <div className="User">
+       <UserInformation 
+        className="User-info"
+        isExisting={this.state.isUserExisting}
+        user={this.state.receivedUser}/>
+
+        <UserRepositories 
+          repos={this.state.repos}
+          displayState={this.displayState}
+          />
+
+        <ReactPaginate 
+          previousLabel={'previous'}
+          nextLabel={'next'}
+          breakLabel={'...'}
+          breakClassName={'break-me'}
+          pageCount={this.state.pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={this.handlePageClick}
+          containerClassName={'pagination'}
+          activeClassName={'active'}
+        />
+      </div>
+    }
+  }
+
+  async getUser(desiredUser) {
+    return fetch(`https://api.github.com/users/${desiredUser}`)
+    .then(response => {
+      if(!response.ok) {
+        return null;
+      } else {
+        return response.json();
+      }
+    })
+    .then(response => {
+      return response;
+    });
+  }
+
+  async getRepositiories(desiredUser) {
+    let perPage = this.state.reposPerPage;
+    let page = this.state.currentPage;
+
+    return fetch(
+      `https://api.github.com/users/${desiredUser}/repos?per_page=${perPage}&page=${page}`)
+    .then(response => {
+      if(!response.ok) {
+        return null;
+      } else {
+        return response.json();
+      }
+    })
+    .then(response => {
+      this.setState({
+        repos: response,
+        pageCount: Math.ceil(this.state.receivedUser.public_repos / 4)
+      });
+    });
+  }
+
+  handlePageClick = (data) => {
+    let selected = data.selected + 1;
+
+    this.setState({ currentPage: selected }, () => {
+      this.getRepositiories(this.state.desiredUser);
+    });
+  };
+
+  async handleUsernameSubmit(desiredUser) {
+    let reseivedUser = await this.getUser(desiredUser);
+    
+
+    if (reseivedUser !== null) {
+      this.setState({
+        isUserExisting: true,
+        desiredUser: desiredUser,
+        receivedUser: reseivedUser,
+        },
+        () => {
+          this.getRepositiories(this.state.desiredUser);
+        });
+    } else {
+      this.setState({
+        isUserExisting: false,
+        desiredUser: desiredUser,
+      });
+    }
+  }
+
+  render() {
+    return (
+      <div className="App">
+
+        <div className="App-header">
+          <div className="App-logo">
+            <img src="/img/header-ico.svg" alt="logo"/>
+          </div>
+          <UserSearchForm 
+            username={this.state.desiredUser}
+            onUsernameSubmit={this.handleUsernameSubmit} />
+        </div>
+
+        <div className="App-main">
+          {this.displayUserInfo()}
+        </div>
+
+      </div>
+    );
+  }   
+}
+
+class UserInformation extends Component {
+  render() {
+      let user = this.props.user;
       return(
-        <div>
-          User's
-          <ul>
-            <li>Login {this.props.login}</li>
-            <li>Name {this.props.name}</li>
-            {repos.map(item => {
-              return <li>{item.name}</li>
-            })}
+        <div className="User-info">
+          <img className="User-avatar" src={user.avatar_url} alt="Avatar"/>
+          <ul >
+            <li>{user.name}</li>
+            <li><a href={user.html_url} target="_blank" rel="noreferrer">{user.login}</a></li>
+            <li>Followers {user.followers}</li>
           </ul>
         </div>
       );
     }
+}
+
+class UserRepositories extends Component {
+  render() {
+    const repos = this.props.repos;
+    if(repos.length === 0) {
+      return this.props.displayState("empty");
+    }
+
+    return (
+      <div> 
+        <ul>
+          <li>Repos {this.props.repos.length}</li>
+          {repos.map(repo => {
+            return (
+              <li>{repo.name}</li>
+            )
+          })}
+        </ul>
+
+      </div>
+    );
   }
 }
 
-class UsernameForm extends Component {
+class UserSearchForm extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -70,93 +242,5 @@ class UsernameForm extends Component {
   }
 }
 
-class App extends Component {
-  constructor(props){
-    super(props);
-    this.handleUsernameSubmit = this.handleUsernameSubmit.bind(this);
-    this.getRepositiories = this.getRepositiories.bind(this);
-    this.getUser = this.getUser.bind(this);
-    this.state = {
-      isExisting: false,
-      username: '',
-      repos: []
-    };
-  }
-
-  async getUser(username) {
-    return fetch(`https://api.github.com/users/${username}`)
-    .then(response => {
-      if(!response.ok) {
-        return null;
-      } else {
-        return response.json();
-      }
-    })
-    .then(response => {
-      return response;
-    });
-  }
-
-  async getRepositiories(username) {
-    return fetch(`https://api.github.com/users/${username}/repos`)
-    .then(response => {
-      if(!response.ok) {
-        return null;
-      } else {
-        return response.json();
-      }
-    })
-    .then(response => {
-      return response;
-    });
-  }
-
-  async handleUsernameSubmit(username) {
-    let user = await this.getUser(username);
-    let repos = await this.getRepositiories(username);
-    if(user !== null) {
-      this.setState({
-        isExisting: true,
-        username: username,
-        login: user.login,
-        name: user.name,
-        repos: repos
-      });
-    } else {
-      this.setState({
-        isExisting: false,
-        username: username,
-      });
-    }
-  }
-
-  render() {
-    
-    return (
-      <div className="App">
-
-        <div className="App-header">
-          <div className="App-logo">
-            <img src="/img/header-ico.svg" alt="logo"/>
-          </div>
-          <UsernameForm 
-            username={this.state.username}
-            onUsernameSubmit={this.handleUsernameSubmit} />
-        </div>
-
-        <div className="App-main">
-          <UserDisplay 
-            isExisting={this.state.isExisting}
-            username={this.state.username}
-            login={this.state.login}
-            name={this.state.name}
-            repos={this.state.repos}
-          />
-        </div>
-
-      </div>
-    );
-  }   
-}
 
 export default App;

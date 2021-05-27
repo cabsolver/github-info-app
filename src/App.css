@@ -210,6 +210,25 @@ a {
 
 /* Pagination ends */
 
+@media (max-width: 750px) {
+  .User-wrapper {
+    grid-template-columns: none;
+    grid-column-gap: 0;
+    grid-template-rows: 0.25fr 1fr 0.1fr;
+  }
+
+  .Repos {
+    margin-top: 10%;
+    grid-column-start: 1;
+    grid-row-start: 2;
+  }
+
+  .pagination {
+    grid-column-start: 1;
+    grid-row-start: 3;
+  }
+}
+
 /* User wrapper ends */
 
 /* Main ends */

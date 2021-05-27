@@ -1,7 +1,10 @@
 import { Component } from 'react';
 import React from 'react';
-import './App.css';
 import ReactPaginate from 'react-paginate';
+import './App.css';
+import UserSearchForm from './UserSearchForm'
+import UserInformation from './UserInformation'
+import UserRepositories from './UserRepositories'
 
 class App extends Component {
   constructor(props){
@@ -62,14 +65,14 @@ class App extends Component {
     } else if(!this.state.isUserExisting) {
       return this.displayState("not-found");
     } else {
-      return <div className="User">
-       <UserInformation 
-        className="User-info"
+      return <div className="User-wrapper">
+       <UserInformation
         isExisting={this.state.isUserExisting}
         user={this.state.receivedUser}/>
 
         <UserRepositories 
           repos={this.state.repos}
+          reposAmount={this.state.receivedUser.public_repos}
           displayState={this.displayState}
           />
 
@@ -174,73 +177,5 @@ class App extends Component {
     );
   }   
 }
-
-class UserInformation extends Component {
-  render() {
-      let user = this.props.user;
-      return(
-        <div className="User-info">
-          <img className="User-avatar" src={user.avatar_url} alt="Avatar"/>
-          <ul >
-            <li>{user.name}</li>
-            <li><a href={user.html_url} target="_blank" rel="noreferrer">{user.login}</a></li>
-            <li>Followers {user.followers}</li>
-          </ul>
-        </div>
-      );
-    }
-}
-
-class UserRepositories extends Component {
-  render() {
-    const repos = this.props.repos;
-    if(repos.length === 0) {
-      return this.props.displayState("empty");
-    }
-
-    return (
-      <div> 
-        <ul>
-          <li>Repos {this.props.repos.length}</li>
-          {repos.map(repo => {
-            return (
-              <li>{repo.name}</li>
-            )
-          })}
-        </ul>
-
-      </div>
-    );
-  }
-}
-
-class UserSearchForm extends Component {
-  constructor(props) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.input = React.createRef();
-  }
-  
-  handleSubmit(event) {
-    event.preventDefault();
-    this.props.onUsernameSubmit(this.input.current.value);
-  }
-
-  render() {
-    return(
-      <form className="search-form" 
-            onSubmit={this.handleSubmit}
-      >
-        <input 
-          type="text" 
-          className="search-input" 
-          name="username"
-          ref={this.input}
-          placeholder="Enter GitHub username"/>
-      </form>
-    );
-  }
-}
-
 
 export default App;

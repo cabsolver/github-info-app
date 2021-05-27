@@ -48,15 +48,20 @@
 
 /* Main starts */
 .App-main {  
-  min-height: 100vh;
+  height: 100vh;
 }
 
+a {
+  text-decoration: none;
+}
+
+/* State starts */
 .state-wrapper {
   display: grid;
   grid-template-columns: 1fr;
   align-items: center;
   justify-items: center;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 .state-hint {
@@ -78,9 +83,64 @@
   font-size: 22px;
   text-align: center;
 }
+/* State ends */
 
-.User {
+/* User wrapper starts */
+.User-wrapper {
   display: grid;
   grid-template-columns: 433px 1fr;
 }
+
+/* User info starts */
+.User-info {
+  padding-left: 57px;
+  padding-top: 39px;
+}
+
+.User-avatar {
+  height: 280px;
+  width: 280px;
+  border-radius: 140px;
+}
+
+.User-name {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 26px;
+  color: black;
+  margin-top: 29px 
+}
+
+.User-login {
+  font-size: 18px;
+  margin-top: 12px;
+}
+
+.User-follow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 29px;
+}
+
+.User-followers {
+  padding-left: 32px;
+  background: url(/src/img/followers-ico.svg) no-repeat left center;
+}
+
+.User-following {
+  padding-left: 32px;
+  background: url(/src/img/following-ico.svg) no-repeat left center;
+}
+/* User info ends */
+
+/* Repos info starts */
+
+/* Repos info ends */
+
+/* Pagination starts */
+
+/* Pagination ends */
+
+/* User wrapper ends */
+
 /* Main ends */

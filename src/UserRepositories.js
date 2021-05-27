@@ -9,9 +9,9 @@ export default class UserRepositories extends Component {
       }
   
       return (
-        <div className="User-repos"> 
-          <div className="Repos-amount">Repos ({this.props.reposAmount})</div>
-          <ul className="Repos-list">
+        <div className="Repos"> 
+          <div className="Repos-amount">Repositories ({this.props.reposAmount})</div>
+          <div className="Repos-list">
             {repos.map(repo => {
               return (
                 <ul className="Repo-unit">
@@ -29,7 +29,7 @@ export default class UserRepositories extends Component {
                 </ul>
               )
             })}
-          </ul>
+          </div>
   
         </div>
       );

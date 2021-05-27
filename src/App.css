@@ -1,12 +1,12 @@
 .App {
   background: #E5E5E5;
+  min-height: 100vh;
 }
 
 /* Header starts */ 
 .App-header {
-  
   display: grid;
-  grid-template-columns: 82px 1fr;
+  grid-template-columns: 0.5fr 10fr;
   background-color: #0064EB;
   height: 72px;
   border-bottom: 1px solid #D4D8DD;
@@ -15,14 +15,14 @@
 .App-logo {
   height: 40px;
   width: 41px;
-  margin-left: 41px;
+  margin-left: 50%;
   margin-top: 16px;
   margin-bottom: 16px;
 }
 
 .search-form {
   height: 40px;
-  width: 500px;
+  width: 35%;
   margin-left: 22px;
   margin-top: 16px;
   margin-bottom: 16px;
@@ -32,7 +32,7 @@
 
 .search-input {
   height: 24px;
-  width: 256px;
+  width: 75%;
   margin-left: 14px;
   margin-top: 8px;
   padding-left: 30px;
@@ -44,11 +44,31 @@
   color: black;
   outline: none;
 }
+
+@media (max-width: 1280px) {
+  .search-form {
+    width: 50%;
+  }
+}
+
+@media (max-width: 650px) {
+  .App-logo {
+    margin-left: 30%;
+  }
+
+  .search-form {
+    width: 80%;
+  }
+}
 /* Header ends */
 
 /* Main starts */
-.App-main {  
-  height: 100vh;
+.App-main-conteiner {
+  min-height: 100%;
+  max-width: 100%;
+  padding-top: 39px;
+  padding-left: 57px;
+  padding-right: 57px;
 }
 
 a {
@@ -88,19 +108,15 @@ a {
 /* User wrapper starts */
 .User-wrapper {
   display: grid;
-  grid-template-columns: 433px 1fr;
+  grid-template-columns: 35% 1fr;
+  grid-column-gap: 10% ;
 }
 
 /* User info starts */
-.User-info {
-  padding-left: 57px;
-  padding-top: 39px;
-}
-
 .User-avatar {
-  height: 280px;
-  width: 280px;
-  border-radius: 140px;
+  max-height: 100%;
+  max-width: 100%;
+  border-radius: 50%;
 }
 
 .User-name {
@@ -134,10 +150,63 @@ a {
 /* User info ends */
 
 /* Repos info starts */
+.Repos-amount {
+  font-weight: 600;
+  font-size: 32px;
+  color: black;
+}
 
+.Repos-list {
+  margin-top: 29px;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-row-gap: 24px;
+}
+
+.Repo-unit {
+  margin: 0 0;
+  padding: 24px 32px;
+  list-style-type: none;
+  background-color: white;
+  border-radius: 6px;
+}
+
+.Repo-name {
+  font-weight: 500;
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.Repo-description {
+  font-weight: normal;
+  font-size: 16px;
+  color: black;
+}
 /* Repos info ends */
 
 /* Pagination starts */
+.pagination {
+  height: 25px;
+  min-width: 50%;
+  grid-column-start: 2;
+  grid-row-start: 2;
+  display: flex;
+  margin-left: auto;
+  align-items: center;
+  justify-content: space-around;
+  list-style-type: none;
+}
+
+.active {
+  padding-top: 5px;
+  text-align: center;
+  width: 21px;
+  height: 20px;
+  background: #0064EB;
+  border-radius: 3px;
+  color:white
+  
+}
 
 /* Pagination ends */
 

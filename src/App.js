@@ -77,13 +77,13 @@ class App extends Component {
           />
 
         <ReactPaginate 
-          previousLabel={'previous'}
-          nextLabel={'next'}
+          previousLabel={'<'}
+          nextLabel={'>'}
           breakLabel={'...'}
           breakClassName={'break-me'}
           pageCount={this.state.pageCount}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
+          marginPagesDisplayed={1}
+          pageRangeDisplayed={2}
           onPageChange={this.handlePageClick}
           containerClassName={'pagination'}
           activeClassName={'active'}
@@ -169,7 +169,7 @@ class App extends Component {
             onUsernameSubmit={this.handleUsernameSubmit} />
         </div>
 
-        <div className="App-main">
+        <div className="App-main-conteiner">
           {this.displayUserInfo()}
         </div>
 

@@ -59,8 +59,27 @@ class App extends Component {
     );
   }
 
+  displayItemsNumber() {
+    const items = this.state.reposPerPage;
+    let reposAmount = this.state.receivedUser.public_repos;
+    let page = this.state.currentPage;
+    let repoStart = 1 + items * (page -1);
+    let repoEnd = repoStart + items - 1;  
+
+    if (repoEnd > reposAmount) {
+      return <div className="Items-number">
+        {repoStart} - {reposAmount} of {reposAmount} items
+      </div>
+    }
+
+    return (
+      <div className="Items-number">
+        {repoStart} - {repoEnd} of {reposAmount} items
+      </div>
+    );
+  }
+
   displayUserInfo() {
-    
     if(this.state.desiredUser === '') {
       return this.displayState("initial");
     } else if(!this.state.isUserExisting) {
@@ -78,17 +97,20 @@ class App extends Component {
           reposAmount={this.state.receivedUser.public_repos}
           displayState={this.displayState}/>
           
-        <ReactPaginate 
-          previousLabel={reposAmount !== 0 ? '<' : ''}
-          nextLabel={reposAmount !== 0 ? '>' : ''}
-          breakLabel={'...'}
-          breakClassName={'break-me'}
-          pageCount={this.state.pageCount}
-          marginPagesDisplayed={1}
-          pageRangeDisplayed={2}
-          onPageChange={this.handlePageClick}
-          containerClassName={'pagination'}
-          activeClassName={'active'}/>
+        <div className="Nav">
+          {reposAmount !== 0 ? this.displayItemsNumber() : null}
+          <ReactPaginate 
+            previousLabel={reposAmount !== 0 ? '<' : ''}
+            nextLabel={reposAmount !== 0 ? '>' : ''}
+            breakLabel={'...'}
+            breakClassName={'break-me'}
+            pageCount={this.state.pageCount}
+            marginPagesDisplayed={1}
+            pageRangeDisplayed={2}
+            onPageChange={this.handlePageClick}
+            containerClassName={'pagination'}
+            activeClassName={'active'}/>
+        </div>  
       </div>
     }
   }

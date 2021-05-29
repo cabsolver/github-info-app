@@ -19,6 +19,11 @@
   margin-top: 16px;
   margin-bottom: 16px;
 }
+@media (max-width: 650px) {
+  .App-logo {
+    margin-left: 30%;
+  }
+}
 
 .search-form {
   height: 40px;
@@ -28,6 +33,16 @@
   margin-bottom: 16px;
   border-radius: 6px;
   background: white;
+}
+@media (max-width: 1280px) {
+  .search-form {
+    width: 50%;
+  }
+}
+@media (max-width: 650px) {
+  .search-form {
+    width: 80%;
+  }
 }
 
 .search-input {
@@ -45,21 +60,8 @@
   outline: none;
 }
 
-@media (max-width: 1280px) {
-  .search-form {
-    width: 50%;
-  }
-}
 
-@media (max-width: 650px) {
-  .App-logo {
-    margin-left: 30%;
-  }
 
-  .search-form {
-    width: 80%;
-  }
-}
 /* Header ends */
 
 /* Main starts */
@@ -248,8 +250,14 @@ a {
   font-size: 16px;
   color: black;
 }
+
+.Repo-loader {
+  position: unset;
+  
+}
 /* Repos info ends */
 
+/* Navigation starts */
 .Nav {
   grid-column-start: 2;
   grid-row-start: 2;
@@ -309,8 +317,9 @@ a {
   color:white
   
 }
-
 /* Pagination ends */
+
+/* Navigation ends */
 
 @media (max-width: 750px) {
   .User-info {
@@ -326,27 +335,6 @@ a {
     grid-column-start: 1;
     grid-row-start: 2;
   }
-}
-
-.loader {
-  border: 16px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 16px solid #3498db;
-  width: 120px;
-  height: 120px;
-  -webkit-animation: spin 2s linear infinite; /* Safari */
-  animation: spin 2s linear infinite;
-}
-
-/* Safari */
-@-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
 }
 /* User wrapper ends */
 

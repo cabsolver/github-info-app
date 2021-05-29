@@ -23,7 +23,9 @@ export default class UserSearchForm extends Component {
             type="text" 
             name="username"
             ref={this.input}
-            placeholder="Enter GitHub username"/>
+            placeholder="Enter GitHub username"
+            autoComplete="off"
+            />
         </form>
       );
     }

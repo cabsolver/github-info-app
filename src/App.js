@@ -60,11 +60,14 @@ class App extends Component {
   }
 
   displayUserInfo() {
+    
     if(this.state.desiredUser === '') {
       return this.displayState("initial");
     } else if(!this.state.isUserExisting) {
       return this.displayState("not-found");
     } else {
+      let reposAmount = this.state.receivedUser.public_repos;
+
       return <div className="User-wrapper">
        <UserInformation
         isExisting={this.state.isUserExisting}
@@ -74,10 +77,10 @@ class App extends Component {
           repos={this.state.repos}
           reposAmount={this.state.receivedUser.public_repos}
           displayState={this.displayState}/>
-
+          
         <ReactPaginate 
-          previousLabel={'<'}
-          nextLabel={'>'}
+          previousLabel={reposAmount !== 0 ? '<' : ''}
+          nextLabel={reposAmount !== 0 ? '>' : ''}
           breakLabel={'...'}
           breakClassName={'break-me'}
           pageCount={this.state.pageCount}

@@ -92,14 +92,22 @@ a {
 /* State starts */
 .state-wrapper {
   position: fixed;
+  left: 0px;
+  top: 73px;
   display: grid;
-
   align-items: center;
   justify-items: center;
   height: 100vh;
   width: 100vw;
 }
 
+.empty {
+  position: unset;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  width: auto;
+}
 
 .state-hint {
   width: 210px;
@@ -112,14 +120,6 @@ a {
   margin-bottom: 47px;
   width: 64px;
   height: 64px;
-}
-
-.empty {
-  position: unset;
-  align-items: center;
-  justify-content: center;
-  height: auto;
-  width: auto;
 }
 
 .state-text {
@@ -261,6 +261,7 @@ a {
   align-items: center;
   justify-content: space-around;
   list-style-type: none;
+  cursor: pointer;
 }
 @media (max-width: 750px) {
   .pagination {

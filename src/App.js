@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import React from 'react';
 import ReactPaginate from 'react-paginate';
+import Loader from 'react-loader'
 import './App.css';
 import UserSearchForm from './UserSearchForm'
 import UserInformation from './UserInformation'
@@ -17,6 +18,8 @@ class App extends Component {
     this.displayUserInfo = this.displayUserInfo.bind(this);
     this.state = {
       isUserExisting: false,
+      isRepoLoaded: true,
+      isLoaded: true,
       desiredUser: '',
       repos: [],
       reposPerPage: 4,
@@ -92,10 +95,12 @@ class App extends Component {
         isExisting={this.state.isUserExisting}
         user={this.state.receivedUser}/>
 
-        <UserRepositories 
-          repos={this.state.repos}
-          reposAmount={this.state.receivedUser.public_repos}
-          displayState={this.displayState}/>
+        <Loader className="Repo-loader" loaded={this.state.isRepoLoaded} color="grey">
+          <UserRepositories 
+            repos={this.state.repos}
+            reposAmount={this.state.receivedUser.public_repos}
+            displayState={this.displayState}/>
+        </Loader>
           
         <div className="Nav">
           {reposAmount !== 0 ? this.displayItemsNumber() : null}
@@ -116,6 +121,7 @@ class App extends Component {
   }
 
   async getUser(desiredUser) {
+    
     return fetch(`https://api.github.com/users/${desiredUser}`)
     .then(response => {
       if(!response.ok) {
@@ -125,6 +131,9 @@ class App extends Component {
       }
     })
     .then(response => {
+      this.setState({
+        isLoaded: true,
+      });
       return response;
     });
   }
@@ -144,6 +153,7 @@ class App extends Component {
     })
     .then(response => {
       this.setState({
+        isRepoLoaded: true,
         repos: response,
         pageCount: Math.ceil(this.state.receivedUser.public_repos / 4)
       });
@@ -153,18 +163,26 @@ class App extends Component {
   handlePageClick = (data) => {
     let selected = data.selected + 1;
 
-    this.setState({ currentPage: selected }, () => {
+    this.setState({
+       currentPage: selected, 
+       isRepoLoaded: false
+      },
+      () => {
       this.getRepositiories(this.state.desiredUser);
     });
   };
 
   async handleUsernameSubmit(desiredUser) {
+    this.setState({
+      isLoaded: false,
+    });
     let reseivedUser = await this.getUser(desiredUser);
     
 
     if (reseivedUser !== null) {
       this.setState({
         isUserExisting: true,
+        isRepoLoaded: false,
         desiredUser: desiredUser,
         receivedUser: reseivedUser,
         },
@@ -192,9 +210,11 @@ class App extends Component {
             onUsernameSubmit={this.handleUsernameSubmit} />
         </div>
 
-        <div className="App-main-conteiner">
-          {this.displayUserInfo()}
-        </div>
+        <Loader loaded={this.state.isLoaded} color="grey" >
+          <div className="App-main-conteiner">
+            {this.displayUserInfo()}
+          </div>
+        </Loader>
 
       </div>
     );

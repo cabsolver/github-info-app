@@ -73,8 +73,7 @@ class App extends Component {
         <UserRepositories 
           repos={this.state.repos}
           reposAmount={this.state.receivedUser.public_repos}
-          displayState={this.displayState}
-          />
+          displayState={this.displayState}/>
 
         <ReactPaginate 
           previousLabel={'<'}
@@ -86,8 +85,7 @@ class App extends Component {
           pageRangeDisplayed={2}
           onPageChange={this.handlePageClick}
           containerClassName={'pagination'}
-          activeClassName={'active'}
-        />
+          activeClassName={'active'}/>
       </div>
     }
   }

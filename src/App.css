@@ -70,6 +70,20 @@
   padding-left: 57px;
   padding-right: 57px;
 }
+@media (max-width: 1366px) {
+  .App-main-conteiner {
+    padding-top: 3%;
+    padding-left: 3%;
+    padding-right: 20px; 
+  }
+}
+@media (max-width: 750px) {
+  .App-main-conteiner {
+    padding-top: 20px;
+    padding-left: 10px;
+    padding-right: 10px; 
+  }
+}
 
 a {
   text-decoration: none;
@@ -77,12 +91,15 @@ a {
 
 /* State starts */
 .state-wrapper {
+  position: fixed;
   display: grid;
-  grid-template-columns: 1fr;
+
   align-items: center;
   justify-items: center;
   height: 100vh;
+  width: 100vw;
 }
+
 
 .state-hint {
   width: 210px;
@@ -95,7 +112,14 @@ a {
   margin-bottom: 47px;
   width: 64px;
   height: 64px;
+}
 
+.empty {
+  position: unset;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  width: auto;
 }
 
 .state-text {
@@ -108,8 +132,22 @@ a {
 /* User wrapper starts */
 .User-wrapper {
   display: grid;
-  grid-template-columns: 35% 1fr;
+  grid-template-columns: 25% 1fr;
   grid-column-gap: 10% ;
+}
+@media (max-width: 750px) {
+  .User-wrapper {
+    grid-template-columns: none;
+    grid-template-rows: 0.25fr 1fr 0.1fr;
+    justify-items: center;
+  }
+}
+@media (min-width: 1500px) {
+  .User-wrapper {
+    display: grid;
+    grid-template-columns: 20% 1fr;
+    grid-column-gap: 10% ;
+  }
 }
 
 /* User info starts */
@@ -117,6 +155,12 @@ a {
   max-height: 100%;
   max-width: 100%;
   border-radius: 50%;
+}
+@media (max-width: 750px) {
+  .User-avatar {
+    max-width: 80%;
+    max-height: 80%;
+  }
 }
 
 .User-name {
@@ -133,9 +177,12 @@ a {
 }
 
 .User-follow {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  justify-content: space-between;
   margin-top: 29px;
+  max-width: 300px;
+  font-size: 16px;
+  color: black;
 }
 
 .User-followers {
@@ -144,6 +191,7 @@ a {
 }
 
 .User-following {
+  margin-left: 10px ;
   padding-left: 32px;
   background: url(/src/img/following-ico.svg) no-repeat left center;
 }
@@ -155,12 +203,23 @@ a {
   font-size: 32px;
   color: black;
 }
+@media (max-width: 750px) {
+  .Repos-amount {
+    font-size: 28px;
+  }
+}
 
 .Repos-list {
   margin-top: 29px;
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   grid-row-gap: 24px;
+}
+@media (max-width: 750px) {
+  .Repos-list {
+    margin-top: 20px;
+    grid-row-gap: 10px;
+  }
 }
 
 .Repo-unit {
@@ -169,12 +228,19 @@ a {
   list-style-type: none;
   background-color: white;
   border-radius: 6px;
+  word-break: break-word;
 }
 
 .Repo-name {
   font-weight: 500;
   font-size: 24px;
   margin-bottom: 12px;
+}
+@media (max-width: 750px) {
+  .Repo-name {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
 }
 
 .Repo-description {
@@ -196,6 +262,17 @@ a {
   justify-content: space-around;
   list-style-type: none;
 }
+@media (max-width: 750px) {
+  .pagination {
+    grid-column-start: 1;
+    grid-row-start: 3;
+    min-width: 80%;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-left: 0;
+    padding: 0;
+  }
+}
 
 .active {
   padding-top: 5px;
@@ -211,21 +288,18 @@ a {
 /* Pagination ends */
 
 @media (max-width: 750px) {
-  .User-wrapper {
-    grid-template-columns: none;
-    grid-column-gap: 0;
-    grid-template-rows: 0.25fr 1fr 0.1fr;
+  .User-info {
+    display: flex;
+    justify-items: center;
+    flex-direction: column;
+    align-items: center;
   }
 
   .Repos {
+    width: 100%;
     margin-top: 10%;
     grid-column-start: 1;
     grid-row-start: 2;
-  }
-
-  .pagination {
-    grid-column-start: 1;
-    grid-row-start: 3;
   }
 }
 

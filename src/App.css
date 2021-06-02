@@ -107,7 +107,7 @@ a {
   position: unset;
   align-items: center;
   justify-content: center;
-  height: auto;
+  height: 100%;
   width: auto;
 }
 

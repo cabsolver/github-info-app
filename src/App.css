@@ -197,6 +197,15 @@ a {
   padding-left: 32px;
   background: url(/src/img/following-ico.svg) no-repeat left center;
 }
+
+@media (max-width: 750px) {
+  .User-info {
+    display: flex;
+    justify-items: center;
+    flex-direction: column;
+    align-items: center;
+  }
+}
 /* User info ends */
 
 /* Repos info starts */
@@ -253,7 +262,15 @@ a {
 
 .Repo-loader {
   position: unset;
-  
+}
+
+@media (max-width: 750px) {
+  .Repos {
+    width: 100%;
+    margin-top: 10%;
+    grid-column-start: 1;
+    grid-row-start: 2;
+  }
 }
 /* Repos info ends */
 
@@ -321,21 +338,6 @@ a {
 
 /* Navigation ends */
 
-@media (max-width: 750px) {
-  .User-info {
-    display: flex;
-    justify-items: center;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .Repos {
-    width: 100%;
-    margin-top: 10%;
-    grid-column-start: 1;
-    grid-row-start: 2;
-  }
-}
 /* User wrapper ends */
 
 /* Main ends */
